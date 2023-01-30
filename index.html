@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>主頁</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- <style>
+    body{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      margin: 0px;
+    }
+  </style> -->
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">毛毛與秀秀的家</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">主頁</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">性能</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">價各</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">限制</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <form class="d-flex my-2 my-lg-0">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item mx-1">
+              <a href="" id="userlink" class="nav-link">使用者</a>
+            </li>
+            <li class="nav-item">
+              <a href="" id="signoutlink" class="nav-link">登出</a>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <h3 id="hh"></h3>
+
+  <script>
+    let userlink = document.getElementById('userlink');
+    let signoutlink = document.getElementById('signoutlink');
+    let header = document.getElementById('hh');
+    var currentUser = null;
+
+    function getUsername(){
+      let keepLoggedIn = localStorage.getItem("keepLoggedIn")
+
+      if(keepLoggedIn == "yes"){
+        currentUser = JSON.parse(localStorage.getItem('user'));
+      }
+      else{
+        currentUser = JSON.parse(sessionStorage.getItem('user'));
+      }
+    }
+
+    function Signout(){
+      sessionStorage.removeItem('user');
+      localStorage.removeItem('user');
+      localStorage.removeItem('keepLoggedIn');
+      window.location = "index.html";
+    }
+
+    window.onload = function(){
+      getUsername();
+      if(currentUser == null){
+        userlink.innerText="建立新帳戶";
+        userlink.classList.replace("nav-link","btn");
+        userlink.classList.add("btn-primary");
+        userlink.href = "register.html";
+
+        signoutlink.innerText="登錄";
+        signoutlink.classList.replace("nav-link","btn");
+        signoutlink.classList.add("btn-success");
+        signoutlink.href = "login.html"
+      }
+      else{
+        userlink.innerText=currentUser.username;
+        header.innerText = "你好," + currentUser.fullname;
+        userlink.classList.replace("btn","nav-link");
+        userlink.classList.remove("btn-primary");
+        userlink.href = "#";
+
+        signoutlink.innerText="登出";
+        signoutlink.classList.replace("btn","nav-link");
+        signoutlink.classList.remove("btn-success");
+        signoutlink.href = "javascript:Signout()";
+      }
+    }
+  </script>
+</body>
+</html>
